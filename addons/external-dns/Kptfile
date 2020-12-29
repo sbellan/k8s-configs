@@ -1,0 +1,28 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+    name: external-dns
+packageMetadata:
+    shortDescription: sample description
+dependencies:
+  - name: upstream
+    git:
+        repo: https://github.com/kubernetes-sigs/external-dns
+        directory: kustomize
+        ref: v0.7.5
+    updateStrategy: fast-forward
+openAPI:
+    definitions:
+        io.k8s.cli.setters.CLUSTER_NAME:
+            x-k8s-cli:
+                setter:
+                    name: CLUSTER_NAME
+                    value: CLUSTER_NAME
+        io.k8s.cli.substitutions.cluster-name:
+            x-k8s-cli:
+                substitution:
+                    name: cluster-name
+                    pattern: --txt-owner-id=${CLUSTER_NAME}
+                    values:
+                      - marker: ${CLUSTER_NAME}
+                        ref: '#/definitions/io.k8s.cli.setters.CLUSTER_NAME'

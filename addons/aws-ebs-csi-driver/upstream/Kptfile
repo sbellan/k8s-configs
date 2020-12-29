@@ -1,0 +1,20 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+  name: aws-ebs-csi-driver
+upstream:
+  type: git
+  git:
+    commit: f54138034204850e54c26f67dde3f8217339c09c
+    repo: https://github.com/kubernetes-sigs/aws-ebs-csi-driver
+    directory: /deploy/kubernetes
+    ref: v0.8.0
+packageMetadata:
+  shortDescription: sample description
+dependencies:
+- name: upstream
+  git:
+    repo: https://github.com/kubernetes-sigs/aws-ebs-csi-driver
+    directory: /deploy/kubernetes
+    ref: v0.8.0
+  updateStrategy: fast-forward

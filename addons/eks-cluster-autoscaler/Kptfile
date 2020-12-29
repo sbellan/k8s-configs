@@ -1,0 +1,33 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+  name: eks-cluster-autoscaler
+packageMetadata:
+  shortDescription: sample description
+dependencies:
+- name: upstream
+  git:
+    repo: https://github.com/kubernetes/autoscaler
+    directory: /cluster-autoscaler/cloudprovider/aws/examples
+    ref: cluster-autoscaler-1.20.0
+  updateStrategy: fast-forward
+openAPI:
+  definitions:
+    io.k8s.cli.substitutions.cluster-name:
+      x-k8s-cli:
+        substitution:
+          name: cluster-name
+          pattern: --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/${CLUSTER_NAME}
+          values:
+          - marker: ${CLUSTER_NAME}
+            ref: '#/definitions/io.k8s.cli.setters.CLUSTER_NAME'
+    io.k8s.cli.setters.CLUSTER_NAME:
+      x-k8s-cli:
+        setter:
+          name: CLUSTER_NAME
+          value: <YOUR CLUSTER NAME>
+    io.k8s.cli.setters.autoscaler-image-tag:
+      x-k8s-cli:
+        setter:
+          name: autoscaler-image-tag
+          value: v1.18.3

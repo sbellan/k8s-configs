@@ -1,0 +1,20 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+  name: eks-cluster-autoscaler
+upstream:
+  type: git
+  git:
+    commit: 19582d95b016d09b585a0e1d9c4738dbbc98e26e
+    repo: https://github.com/kubernetes/autoscaler
+    directory: /cluster-autoscaler/cloudprovider/aws/examples
+    ref: cluster-autoscaler-1.20.0
+packageMetadata:
+  shortDescription: sample description
+dependencies:
+- name: upstream
+  git:
+    repo: https://github.com/kubernetes/autoscaler
+    directory: /cluster-autoscaler/cloudprovider/aws/examples
+    ref: cluster-autoscaler-1.19.0
+  updateStrategy: fast-forward

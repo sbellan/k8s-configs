@@ -1,0 +1,6 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+  name: traefikv2
+packageMetadata:
+  shortDescription: sample description

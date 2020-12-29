@@ -1,0 +1,28 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+  name: aws-ebs-csi-driver
+packageMetadata:
+  shortDescription: sample description
+dependencies:
+- name: upstream
+  git:
+    repo: https://github.com/kubernetes-sigs/aws-ebs-csi-driver
+    directory: /deploy/kubernetes
+    ref: v0.8.0
+  updateStrategy: fast-forward
+openAPI:
+  definitions:
+    io.k8s.cli.substitutions.cluster-name:
+      x-k8s-cli:
+        substitution:
+          name: cluster-name
+          pattern: --extra-tags=cluster=${CLUSTER_NAME}
+          values:
+          - marker: ${CLUSTER_NAME}
+            ref: '#/definitions/io.k8s.cli.setters.CLUSTER_NAME'
+    io.k8s.cli.setters.CLUSTER_NAME:
+      x-k8s-cli:
+        setter:
+          name: CLUSTER_NAME
+          value: CLUSTER_NAME
